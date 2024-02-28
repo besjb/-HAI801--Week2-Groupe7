@@ -129,7 +129,7 @@ def parse_grids_from_file(file_path):
     return grids
 
 
-file_path = "data/dataset.txt"  # Remplacez "votre_fichier.txt" par le chemin de votre fichier
+file_path = "data/dataset.txt"
 grids = parse_grids_from_file(file_path)
 #jouerPartie(grids[-1][1], grids[-1][0])
 # Pour afficher les grilles
