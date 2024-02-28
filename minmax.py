@@ -1,7 +1,6 @@
 import math
 import random
 import copy
-import time
 
 def estPartieTerminee(grille):
     # Vérifie si la grille est pleine ou s'il y a un gagnant
@@ -78,7 +77,6 @@ def choisirCaseVide(grille):
 def jouerPartie(grille, symbol):
     grille = copy.deepcopy(grille)  # Copie de la grille pour ne pas modifier l'originale
     joueur_actuel = symbol
-    end = 0
     while not estPartieTerminee(grille):
         if joueur_actuel == 'X':
             coup = meilleurCoup(grille)
@@ -86,13 +84,8 @@ def jouerPartie(grille, symbol):
             coup = choisirCaseVide(grille)  # Utilisation de choisirCaseVide pour l'ordinateur
         grille[coup[0]][coup[1]] = joueur_actuel
         joueur_actuel = 'O' if joueur_actuel == 'X' else 'X'
-    # afficherGrille(grille)
-    result = 0
-    if estVictoire(grille, 'X'):
-        result = 1
-    elif estVictoire(grille, 'O'):
-        result = -1
-    return result
+    afficherGrille(grille)
+
 
 def genererGrilleDepart():
     grille = [['-' for _ in range(3)] for _ in range(3)]
@@ -108,7 +101,6 @@ def genererGrilleDepart():
     return grille
 
 def afficherGrille(grille):
-    print("\n---------")
     for ligne in grille:
         print(" | ".join(ligne))
         print("---------")
@@ -120,40 +112,26 @@ def parse_grids_from_file(file_path):
             line = line.strip()
             if len(line) < 10:
                 # Ignorer les lignes qui ne sont pas au format attendu
-                line += ' ' * (10 - len(line))
+                continue
             symbol = line[0]
-            values = line[1:]
-            values = values.replace(' ', '-')
-            grid = [list(values[i:i+3]) for i in range(0, len(values), 3)]
-            grids.append((symbol, grid))
+            values = line[1:].replace(' ', '-')  # Remplacer les espaces par des tirets
+            grid = [values[i:i+3] for i in range(0, len(values), 3)]
+            grids.append((symbol, [list(row) for row in grid]))
     return grids
+
+
+
+
 
 
 file_path = "data/dataset.txt"  # Remplacez "votre_fichier.txt" par le chemin de votre fichier
 grids = parse_grids_from_file(file_path)
-#jouerPartie(grids[-1][1], grids[-1][0])
+
 # Pour afficher les grilles
-nblose = 0
-nbwin = 0
-nbdraw = 0
-nbline = 4519
-total_duration = 0
-for symbol, grid in grids:
-    start = time.time()
-    r = jouerPartie(grid, symbol)
-    end = time.time()
-    total_duration += (end - start)
+# for symbol, grid in grids:
+#     jouerPartie(grid, symbol)clear
 
-    if (r == -1):
-        nblose += 1
-    elif (r):
-        nbwin += 1
-    else:
-        nbdraw += 1
-
-print("Winrate  = " + str((nbwin/nbline)*100) + str(" %"))
-print("Loserate = " + str((nblose/nbline)*100)+ str(" %"))
-print("Drawrate = " + str((nbdraw/nbline)*100)+ str(" %"))
-print("AVG duration = " + str(total_duration/nbline) + str(" s"))
-print("Full duration = " + str(total_duration) + str(" s"))
+afficherGrille(grids[0][1])
+print(grids[0][1])
+jouerPartie(grids[0][0], copy.deepcopy(grids[0][1]))
 
