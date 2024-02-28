@@ -86,7 +86,6 @@ def jouerPartie(grille, symbol):
         joueur_actuel = 'O' if joueur_actuel == 'X' else 'X'
     afficherGrille(grille)
 
-
 def genererGrilleDepart():
     grille = [['-' for _ in range(3)] for _ in range(3)]
     coups_a_jouer = random.randint(0, 9)  # Nombre aléatoire de coups à jouer
@@ -101,6 +100,7 @@ def genererGrilleDepart():
     return grille
 
 def afficherGrille(grille):
+    print("\n---------")
     for ligne in grille:
         print(" | ".join(ligne))
         print("---------")
@@ -115,14 +115,15 @@ def parse_grids_from_file(file_path):
                 continue
             symbol = line[0]
             values = line[1:]
-            grid = [values[i:i+3] for i in range(0, len(values), 3)]
+            values = values.replace(' ', '-')
+            grid = [list(values[i:i+3]) for i in range(0, len(values), 3)]
             grids.append((symbol, grid))
     return grids
 
 
 file_path = "data/dataset.txt"  # Remplacez "votre_fichier.txt" par le chemin de votre fichier
 grids = parse_grids_from_file(file_path)
-
+#jouerPartie(grids[-1][1], grids[-1][0])
 # Pour afficher les grilles
 for symbol, grid in grids:
     jouerPartie(grid, symbol)
