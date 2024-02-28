@@ -196,7 +196,7 @@ vector<pair<char, vector<vector<char>>>> parse_grids_from_file(string file_path)
 
 int main() {
     srand(time(nullptr));
-    string file_path = "data/dataset.txt";  // Remplacez "votre_fichier.txt" par le chemin de votre fichier
+    string file_path = "data/dataset.txt"; 
     vector<pair<char, vector<vector<char>>>> grids = parse_grids_from_file(file_path);
 
     int nblose = 0;
